@@ -12,18 +12,22 @@ jobs:
     environment: live
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
+      - name: Checkout the Repository
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Build the Docker image
-        run: docker build -t jigsaw-blog .
+      - name: Build the Docker Image
+        run: docker build -t davigsilva/jigsaw-blog:latest .
 
   publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Publish the Builded Image
-      run: docker push davigsilva/jigsaw-blog:latest
+
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Publish the Builded Image
+        run: docker push davigsilva/jigsaw-blog:latest
+
+      - name: Remove Docker Credentials
+        run: docker logout
