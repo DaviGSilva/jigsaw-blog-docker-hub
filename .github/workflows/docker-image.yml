@@ -9,7 +9,6 @@ on:
 jobs:
 
   build:
-    environment: live
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the Repository
@@ -19,6 +18,7 @@ jobs:
         run: docker build -t davigsilva/jigsaw-blog:latest .
 
   publish:
+    environment: live
     needs: build
     runs-on: ubuntu-latest
     steps:
